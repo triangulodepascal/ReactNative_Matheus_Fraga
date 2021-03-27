@@ -1,47 +1,44 @@
 import React, { Component } from "react";
-import Pessoa from "./src/Pessoas";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { Picker } from "@react-native-community/picker";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      feed: [
-        {
-          id: "1",
-          nome: "Samuel",
-          idade: 19,
-          email: "samuelchagasalves@gmail.com",
-        },
-        {
-          id: "2",
-          nome: "Sarah",
-          idade: 18,
-          email: "sarahchagasalves@gmail.com",
-        },
-        {
-          id: "3",
-          nome: "Maira",
-          idade: 21,
-          email: "mairachagasalves@gmail.com",
-        },
-        {
-          id: "4",
-          nome: "Matheus",
-          idade: 26,
-          email: "matheuschagasalves@gmail.com",
-        },
+      pizza: 0,
+      pizzas: [
+        { key: 1, nome: "Strogonoff", valor: 35.9 },
+        { key: 2, nome: "Calabresa", valor: 59 },
+        { key: 3, nome: "Quatro queijos", valor: 37 },
+        { key: 4, nome: "Brigadeiro", valor: 25.7 },
       ],
     };
   }
   render() {
+    let pizzasItem = this.state.pizzas.map((value, key) => {
+      return <Picker.Item key={key} value={key} label={value.nome} />;
+    });
+
     return (
       <View style={styles.container}>
-        <FlatList
-          data={this.state.feed}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Pessoa data={item} />}
-        ></FlatList>
+        <Text style={styles.logo}>Menu pizza</Text>
+
+        <Picker
+          selectedValue={this.state.pizza}
+          onValueChange={(itemValue, itemIndex) =>
+            this.setState({ pizza: itemValue })
+          }
+        >
+          {pizzasItem}
+        </Picker>
+
+        <Text style={styles.pizzas}>
+          Voce escolheu: {this.state.pizzas[this.state.pizza].nome}
+        </Text>
+        <Text style={styles.pizzas}>
+          R$: {this.state.pizzas[this.state.pizza].valor.toFixed(2)}
+        </Text>
       </View>
     );
   }
@@ -50,6 +47,17 @@ class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 25,
+  },
+  logo: {
+    textAlign: "center",
+    fontSize: 28,
+    fontWeight: "bold",
+  },
+  pizzas: {
+    marginTop: 15,
+    fontSize: 25,
+    textAlign: "center",
   },
 });
 
