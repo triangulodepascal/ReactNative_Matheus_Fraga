@@ -1,28 +1,26 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import Slider from "@react-native-community/slider";
+import { View, Text, StyleSheet, Switch } from "react-native";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      valor: 0,
+      status: false,
     };
   }
   render() {
     return (
       <View style={styles.container}>
-        <Slider
-          minimumValue={0}
-          maximumValue={100}
-          onValueChange={(valorSelecionado) =>
-            this.setState({ valor: valorSelecionado })
+        <Switch
+          value={this.state.status}
+          onValueChange={(valorSwitch) =>
+            this.setState({ status: valorSwitch })
           }
-          value={this.state.valor}
-        ></Slider>
+          thumbColor="#FF0000"
+        ></Switch>
+
         <Text style={{ textAlign: "center", fontSize: 30 }}>
-          {" "}
-          {this.state.valor.toFixed(0)}
+          {this.state.status ? "Ativo" : "Inativo"}
         </Text>
       </View>
     );
@@ -32,7 +30,7 @@ class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 25,
+    marginTop: 45,
   },
 });
 
