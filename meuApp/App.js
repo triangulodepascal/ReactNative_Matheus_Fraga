@@ -20,6 +20,19 @@ class App extends Component {
     this.gravaNome = this.gravaNome.bind(this);
   }
 
+  async componentDidMount() {
+    await AsyncStorage.getItem("nome").then((value) => {
+      this.setState({ nome: value });
+    });
+  }
+
+  async componentDidUpdate(_, prevState) {
+    const nome = this.state.nome;
+    if (prevState !== nome) {
+      await AsyncStorage.setItem("nome", nome);
+    }
+  }
+
   gravaNome() {
     this.setState({
       nome: this.state.input,
